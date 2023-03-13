@@ -1,15 +1,15 @@
 // @ts-check
-import { test, expect} from '@playwright/test';
+import { test, expect, chromium} from '@playwright/test';
 // const { test, expect,chromium } = require('@playwright/test');
 const mainPage = 'https://www.musthavemenus.com/';
 
 test.describe('Main Page: Logged out',()=> {
 
   test.beforeEach(async ({page}) => {
-    await page.goto(mainPage);
+    // await page.goto(mainPage);
   });
 
-test.only('MP-1: MHM logo button is clickable and working', async ({page}) => {
+test('MP-1: MHM logo button is clickable and working', async ({page}) => {
   const mhmLogolink = page.locator('.icon.mhm-logo');
   const templateTab = page.locator('//a[@class="more-page dropdown-toggle"][contains(text(),"Templates")]')
 
@@ -21,19 +21,18 @@ test.only('MP-1: MHM logo button is clickable and working', async ({page}) => {
   await expect(page).toHaveURL(/.*www.musthavemenus.com/);
   });
 
-  test('MP-13/1: Book A Demo button is working', async () => {
-    // const { chromium } = require('playwright');
+  test.only('MP-13/1: Book A Demo button is working', async () => {
 
       const browser = await chromium.launch();
       const context = await browser.newContext();
       const page = await context.newPage();
 
-      // Navigate to a page that opens a new tab
+    // Navigate to a page that opens a new tab
       await page.goto(mainPage);
 
       // Click a link that opens a new tab
       const bookAdemoButton = page.locator('//a[@class="btn btn-brand-sq"][normalize-space()="Book a Demo"]');
-      await bookAdemoButton.click;
+      await bookAdemoButton.click();
 
       // Get an array of all pages
       const pages = context.pages();
@@ -41,7 +40,7 @@ test.only('MP-1: MHM logo button is clickable and working', async ({page}) => {
       // Switch to the second tab
       const secondTab = pages[1];
       await secondTab.bringToFront();
-      await page.pause();
+      // await page.pause();
 
       // Do something on the second tab
       await expect(secondTab).toHaveURL('https://calendly.com/mhmcustomer-success/30minute?month=2023-03');
@@ -49,7 +48,7 @@ test.only('MP-1: MHM logo button is clickable and working', async ({page}) => {
       await browser.close();
     });
 
-  test.only('MP-2: MHM logo icon is visible', async ({page}) => {
+  test('MP-2: MHM logo icon is visible', async ({page}) => {
     const mhmLogolink = page.locator('.icon.mhm-logo');
 
     await expect(mhmLogolink).toBeVisible();
